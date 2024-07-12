@@ -46,6 +46,10 @@ export default function FileUpload() {
 
   const calculateProgress = () => (files.length / MAX_FILES) * 100
 
+  function bytesToMB(bytes) {
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+  }
+
   return (
     <Box sx={{ maxWidth: 400, margin: 'auto', padding: 2 }}>
       <Typography variant="h4" gutterBottom>
@@ -81,26 +85,27 @@ export default function FileUpload() {
             Selected files: {files.length}
           </Typography>
           <ul>
-            {files.map((file, index) => (
-              <li key={index}>
-                <Typography variant="body2" component="span">
-                  {file.name}
-                </Typography>
-                <IconButton size="small" onClick={() => handleRemoveFile(index)}>
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </li>
-            ))}
+            {
+              files.map((file, index) => (
+                <li key={index}>
+                  <Typography variant="body2" component="span">
+                    {file.name},{bytesToMB(file.size)}
+                  </Typography>
+                  <IconButton size="small" onClick={() => handleRemoveFile(index)}>
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </li>
+              ))}
           </ul>
         </Box>
       )}
       <Box sx={{ width: '100%', marginBottom: 2 }}>
         <LinearProgress variant="determinate" value={calculateProgress()} />
       </Box>
-      <Button 
-        type="submit" 
+      <Button
+        type="submit"
         variant="contained"
-        disabled={files.length === 0} 
+        disabled={files.length === 0}
         fullWidth
       >
         Upload
